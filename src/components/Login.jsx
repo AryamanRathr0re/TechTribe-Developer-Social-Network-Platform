@@ -24,7 +24,7 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(res.data));
-      return navigate("/");
+      return navigate("/home");
     } catch (error) {
       console.error("Login error:", error);
       setError(error?.response?.data?.message || "Something Went Wrong");
