@@ -29,7 +29,7 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(res.data));
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       setError(error?.response?.data?.message || "Something went wrong");
     }

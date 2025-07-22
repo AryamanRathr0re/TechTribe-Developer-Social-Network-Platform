@@ -37,11 +37,13 @@ const Landing = () => {
             </div>
           </div>
           <div className="md:w-1/2 mt-10 md:mt-0 flex justify-center relative z-10 animate-slide-in-right">
-            <img
-              src={heroImg}
-              alt="TechTribe illustration"
-              className="w-full max-w-xs md:max-w-sm rounded-3xl border-4 border-primary shadow-2xl transition-transform duration-300 hover:scale-105 hover:shadow-primary/40 animate-fade-in"
-            />
+            <Link to="/feed">
+              <img
+                src={heroImg}
+                alt="TechTribe illustration"
+                className="w-full max-w-xs md:max-w-sm rounded-3xl border-4 border-primary shadow-2xl transition-transform duration-300 hover:scale-105 hover:shadow-primary/40 animate-fade-in"
+              />
+            </Link>
           </div>
         </section>
 

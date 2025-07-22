@@ -8,10 +8,12 @@ import Feed from "./components/Feed";
 import Landing from "./components/Landing";
 import Connections from "./components/Connections";
 import RequestConn from "./components/RequestConn";
+import Chat from "./components/Chat";
 
 function App() {
   return (
     <>
+    
       <Provider store={appStore}>
         <BrowserRouter basename="/">
           <Routes>
@@ -26,9 +28,11 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/feed" element={<Feed />} />
-              <Route path="/home" element={<Landing />} />
+              <Route path="/" element={<Landing />} />
               <Route path="/connections" element={<Connections/>} />
               <Route path="/request" element={ <RequestConn/>} />
+              <Route path="/chat/:targetUserId" element={ <Chat/>} />
+
             </Route>
           </Routes>
         </BrowserRouter>
