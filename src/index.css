@@ -1,2 +1,290 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* Tinder Theme Colors */
+:root {
+  --tinder-pink: #ff4458;
+  --tinder-orange: #fd5068;
+  --tinder-red: #fe3c72;
+  --tinder-gradient: linear-gradient(45deg, #ff4458, #fd5068, #fe3c72);
+  --tinder-dark: #1a1a1a;
+  --tinder-card-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Global enhancements */
+html {
+  scroll-behavior: smooth;
+  background: var(--tinder-dark);
+}
+
+body {
+  background: var(--tinder-dark);
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", sans-serif;
+}
+
+/* Navbar alignment fixes */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar > * {
+  display: flex;
+  align-items: center;
+}
+
+/* Tinder Gradient Text */
+.glow-text {
+  filter: drop-shadow(0 0 0.3rem rgba(255, 68, 88, 0.6));
+}
+
+.tinder-gradient {
+  background: var(--tinder-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tinder-bg-gradient {
+  background: linear-gradient(135deg, #ff4458 0%, #fd5068 50%, #fe3c72 100%);
+}
+
+/* Card Styles */
+.tinder-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: var(--tinder-card-shadow);
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tinder-card:active {
+  cursor: grabbing;
+}
+
+.tinder-card-shadow {
+  box-shadow: 0 10px 40px rgba(255, 68, 88, 0.2);
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fadeIn 600ms ease both;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.animate-slide-in-left {
+  animation: slideInLeft 650ms ease both;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.animate-slide-in-right {
+  animation: slideInRight 650ms ease both;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-slide-in-up {
+  animation: slideInUp 700ms ease both;
+}
+
+@keyframes bounceShort {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+.animate-bounce-short {
+  animation: bounceShort 1200ms ease-in-out infinite;
+}
+
+@keyframes swipeLeft {
+  to {
+    transform: translateX(-500px) rotate(-20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes swipeRight {
+  to {
+    transform: translateX(500px) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-swipe-left {
+  animation: swipeLeft 0.5s ease-out forwards;
+}
+
+.animate-swipe-right {
+  animation: swipeRight 0.5s ease-out forwards;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Swipe Overlays */
+.swipe-overlay {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  font-weight: bold;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.swipe-overlay.like {
+  background: linear-gradient(
+    135deg,
+    rgba(76, 175, 80, 0.8),
+    rgba(56, 142, 60, 0.8)
+  );
+  color: white;
+}
+
+.swipe-overlay.nope {
+  background: linear-gradient(
+    135deg,
+    rgba(244, 67, 54, 0.8),
+    rgba(211, 47, 47, 0.8)
+  );
+  color: white;
+}
+
+.swipe-overlay.active {
+  opacity: 1;
+}
+
+/* Button Styles */
+.tinder-btn {
+  border-radius: 50px;
+  padding: 14px 28px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tinder-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.tinder-btn:active {
+  transform: translateY(0);
+}
+
+/* Simple delay helpers */
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-400 {
+  animation-delay: 400ms;
+}
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Match Animation */
+@keyframes match {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+.animate-match {
+  animation: match 0.8s ease-out;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}

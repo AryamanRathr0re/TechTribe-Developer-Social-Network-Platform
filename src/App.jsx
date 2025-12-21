@@ -9,11 +9,11 @@ import Landing from "./components/Landing";
 import Connections from "./components/Connections";
 import RequestConn from "./components/RequestConn";
 import Chat from "./components/Chat";
+import ProfileAnalytics from "./components/ProfileAnalytics";
 
 function App() {
   return (
     <>
-    
       <Provider store={appStore}>
         <BrowserRouter basename="/">
           <Routes>
@@ -29,10 +29,10 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/feed" element={<Feed />} />
               <Route path="/" element={<Landing />} />
-              <Route path="/connections" element={<Connections/>} />
-              <Route path="/request" element={ <RequestConn/>} />
-              <Route path="/chat/:targetUserId" element={ <Chat/>} />
-
+              <Route path="/connections" element={<Connections />} />
+              <Route path="/request" element={<RequestConn />} />
+              <Route path="/chat/:targetUserId" element={<Chat />} />
+              <Route path="/analytics" element={<ProfileAnalytics />} />
             </Route>
           </Routes>
         </BrowserRouter>

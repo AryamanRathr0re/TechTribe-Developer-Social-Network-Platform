@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FaUserLock } from "react-icons/fa";
+import {
+  FaRocket,
+  FaLock,
+  FaEnvelope,
+  FaUser,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
@@ -14,14 +21,16 @@ const Login = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
     try {
       const res = await axios.post(
-        "http://localhost:3000/login",
+        BASE_URL + "/login",
         {
           Email: emailId,
           password,
@@ -29,20 +38,25 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(res.data));
-      navigate("/");
+      navigate("/feed");
     } catch (error) {
-      setError(error?.response?.data?.message || "Something went wrong");
+      setError(
+        error?.response?.data?.message ||
+          "❌ Something went wrong! Please try again."
+      );
     }
   };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
+    setError("");
     try {
       const res = await axios.post(
         BASE_URL + "/signup",
         {
           firstName,
-          LastName:lastName,
-          Email:emailId,
+          LastName: lastName,
+          Email: emailId,
           password,
         },
         { withCredentials: true }
@@ -50,157 +64,248 @@ const Login = () => {
       dispatch(addUser(res.data.data));
       return navigate("/profile");
     } catch (error) {
-      setError(error?.response?.data?.message || "Something went wrong");
+      setError(
+        error?.response?.data?.message ||
+          "❌ Something went wrong! Please try again."
+      );
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen relative">
-      {/* Background image with overlay */}
-      <img
-        src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1500&q=80"
-        alt="TechTribe tech background"
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      />
-      <div className="absolute inset-0 bg-gradient-to-br from-base-200 via-base-100 to-base-300 opacity-90 z-10"></div>
-      {/* Main content */}
-      <div className="relative z-20 w-full flex items-center justify-center">
+    <div className="flex items-center justify-center min-h-screen relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900 to-pink-900">
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="bg-base-100 p-8 rounded-3xl shadow-[0_8px_32px_0_rgba(31,41,55,0.15)] w-full max-w-md border border-base-200 relative overflow-hidden"
-        >
-          {/* Accent Glow */}
-          <div className="absolute -top-10 -left-10 w-32 h-32 bg-primary/20 rounded-full blur-2xl z-0"></div>
-          <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-secondary/20 rounded-full blur-2xl z-0"></div>
+          className="absolute w-96 h-96 bg-pink-500/30 rounded-full blur-3xl top-20 left-20"
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute w-96 h-96 bg-purple-500/30 rounded-full blur-3xl bottom-20 right-20"
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, -80, 0],
+            y: [0, 60, 0],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
+
+      {/* Main Content */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative z-10 w-full max-w-md px-6"
+      >
+        <div className="bg-white/10 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/20">
           {/* Logo and Title */}
-          <div className="flex flex-col items-center mb-6 relative z-10">
-            <div className="bg-primary p-3 rounded-full shadow-lg mb-2 animate-bounce">
-              <FaUserLock className="text-white text-3xl" />
-            </div>
-            <h3 className="text-3xl font-extrabold text-primary drop-shadow-lg tracking-wide">
-              {isLoginForm ? "Welcome Back" : "Welcome to TechTribe"}
-            </h3>
-            <p className="text-sm text-base-content opacity-70">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex flex-col items-center mb-8"
+          >
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+              className="bg-gradient-to-r from-pink-500 to-red-500 p-4 rounded-full shadow-lg mb-4"
+            >
+              <FaRocket className="text-white text-4xl" />
+            </motion.div>
+            <h1 className="text-4xl font-black text-white mb-2">
+              {isLoginForm ? "Welcome Back! 👋" : "Join TechTribe 🚀"}
+            </h1>
+            <p className="text-white/70 text-center">
               {isLoginForm
-                ? "Please login to continue"
-                : "Signup to get started"}
+                ? "Sign in to find your tech match! 💫"
+                : "Create your account and start connecting! ✨"}
             </p>
-          </div>
+          </motion.div>
 
           {/* Form */}
           <form
-            className="space-y-5 relative z-10"
+            className="space-y-5"
             onSubmit={isLoginForm ? handleLogin : handleSignUp}
           >
             {/* First & Last Name for Signup */}
             {!isLoginForm && (
-              <>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+                className="grid grid-cols-2 gap-4"
+              >
                 <div>
-                  <label
-                    className="block text-base-content mb-1 font-semibold"
-                    htmlFor="firstName"
-                  >
-                    First Name
+                  <label className="block text-white/90 mb-2 font-semibold text-sm">
+                    <FaUser className="inline mr-2" /> First Name
                   </label>
                   <input
                     value={firstName}
-                    className="input input-bordered w-full bg-base-100 text-base-content focus:ring-2 focus:ring-primary rounded-xl"
+                    className="input input-bordered w-full bg-white/20 backdrop-blur-sm border-white/30 text-white placeholder-white/50 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
                     type="text"
-                    id="firstName"
-                    placeholder="Enter your first name"
+                    placeholder="John"
                     onChange={(e) => setFirstName(e.target.value)}
+                    required
                   />
                 </div>
-
                 <div>
-                  <label
-                    className="block text-base-content mb-1 font-semibold"
-                    htmlFor="lastName"
-                  >
+                  <label className="block text-white/90 mb-2 font-semibold text-sm">
                     Last Name
                   </label>
                   <input
                     value={lastName}
-                    className="input input-bordered w-full bg-base-100 text-base-content focus:ring-2 focus:ring-primary rounded-xl"
+                    className="input input-bordered w-full bg-white/20 backdrop-blur-sm border-white/30 text-white placeholder-white/50 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
                     type="text"
-                    id="lastName"
-                    placeholder="Enter your last name"
+                    placeholder="Doe"
                     onChange={(e) => setLastName(e.target.value)}
+                    required
                   />
                 </div>
-              </>
+              </motion.div>
             )}
 
             {/* Email */}
-            <div>
-              <label
-                className="block text-base-content mb-1 font-semibold"
-                htmlFor="email"
-              >
-                Email
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: isLoginForm ? 0.3 : 0.4 }}
+            >
+              <label className="block text-white/90 mb-2 font-semibold text-sm">
+                <FaEnvelope className="inline mr-2" /> Email
               </label>
               <input
-                className="input input-bordered w-full bg-base-100 text-base-content focus:ring-2 focus:ring-primary rounded-xl"
+                className="input input-bordered w-full bg-white/20 backdrop-blur-sm border-white/30 text-white placeholder-white/50 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
                 type="email"
-                id="email"
-                placeholder="Enter your email"
+                placeholder="you@example.com"
                 value={emailId}
                 onChange={(e) => setEmailId(e.target.value)}
+                required
               />
-            </div>
+            </motion.div>
 
             {/* Password */}
-            <div>
-              <label
-                className="block text-base-content mb-1 font-semibold"
-                htmlFor="password"
-              >
-                Password
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: isLoginForm ? 0.4 : 0.5 }}
+            >
+              <label className="block text-white/90 mb-2 font-semibold text-sm">
+                <FaLock className="inline mr-2" /> Password
               </label>
-              <input
-                className="input input-bordered w-full bg-base-100 text-base-content focus:ring-2 focus:ring-primary rounded-xl"
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+              <div className="relative">
+                <input
+                  className="input input-bordered w-full bg-white/20 backdrop-blur-sm border-white/30 text-white placeholder-white/50 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 pr-12"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </motion.div>
 
             {/* Error */}
             {error && (
-              <p className="text-red-500 text-center font-semibold bg-base-100 rounded-lg py-2 shadow">
-                {error}
-              </p>
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="alert alert-error bg-red-500/20 backdrop-blur-sm border-red-500/50 text-white rounded-xl"
+              >
+                <span className="font-semibold">{error}</span>
+              </motion.div>
             )}
 
-            {/* Auth navigation */}
-            <div className="flex justify-between text-sm text-primary font-semibold">
-              <span className="hover:underline cursor-pointer">
-                Forgot password?
-              </span>
-              <span
-                className="hover:underline cursor-pointer"
-                onClick={() => setIsLoginForm(!isLoginForm)}
+            {/* Auth Navigation */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="flex justify-between text-sm"
+            >
+              <button
+                type="button"
+                className="text-white/70 hover:text-white hover:underline"
               >
-                {isLoginForm ? "Sign up" : "Login"}
-              </span>
-            </div>
+                Forgot password? 🔑
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsLoginForm(!isLoginForm);
+                  setError("");
+                }}
+                className="text-pink-300 hover:text-pink-200 hover:underline font-semibold"
+              >
+                {isLoginForm ? "✨ Sign up instead" : "👋 Login instead"}
+              </button>
+            </motion.div>
 
             {/* Submit Button */}
             <motion.button
-              whileHover={{ scale: 1.05, backgroundColor: "#2563eb" }}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="btn btn-primary w-full mt-2 shadow-lg text-lg font-bold tracking-wide"
               type="submit"
+              className="btn w-full bg-gradient-to-r from-pink-500 via-red-500 to-pink-600 text-white border-none text-lg font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 mt-6"
             >
-              {isLoginForm ? "Login" : "Sign Up"}
+              {isLoginForm ? "🚀 Login" : "✨ Sign Up"}
             </motion.button>
           </form>
-        </motion.div>
-      </div>
+
+          {/* Social Login Divider */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="mt-6 text-center"
+          >
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-white/20"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-transparent text-white/60">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+            <div className="flex justify-center gap-4 mt-4">
+              {["🔵", "⚫", "🔴"].map((emoji, i) => (
+                <motion.button
+                  key={i}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-2xl hover:bg-white/20 transition-colors"
+                >
+                  {emoji}
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Footer */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="text-center text-white/60 text-sm mt-6"
+        >
+          By continuing, you agree to TechTribe's Terms of Service & Privacy
+          Policy 📜
+        </motion.p>
+      </motion.div>
     </div>
   );
 };
