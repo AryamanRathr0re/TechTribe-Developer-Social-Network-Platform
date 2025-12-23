@@ -12,4 +12,6 @@ const appStore = configureStore({
   },
 });
 
+// Export store for use in api.js interceptor
+export { appStore as store };
 export default appStore;

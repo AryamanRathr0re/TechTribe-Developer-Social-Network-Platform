@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
-import BASE_URL from "../utils/constants";
+import api from "../utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed, removeUserFromFeed } from "../utils/feedSlice";
 import UserCard from "./UserCard";
@@ -30,17 +29,25 @@ const Feed = () => {
   const [filteredFeed, setFilteredFeed] = useState([]);
 
   const getFeed = async () => {
+    // Guard: Don't make request if no token
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+    
     try {
       setLoading(true);
-      const res = await axios.get(BASE_URL + "/feed", {
-        withCredentials: true,
-      });
+      const res = await api.get("/feed");
       console.log(res);
       dispatch(addFeed(res?.data));
       setFilteredFeed(res?.data || []);
       setCurrentIndex(0);
     } catch (error) {
-      console.error(error.message);
+      // 401 is handled by api interceptor
+      if (error?.response?.status !== 401) {
+        console.error(error.message);
+      }
     } finally {
       setLoading(false);
     }

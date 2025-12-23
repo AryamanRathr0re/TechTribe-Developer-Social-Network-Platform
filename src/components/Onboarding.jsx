@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import BASE_URL from "../utils/constants";
+import api from "../utils/api";
 import { addUser } from "../utils/userSlice";
 import UserCard from "./UserCard";
 import {
@@ -108,6 +107,13 @@ const Onboarding = () => {
   };
 
   const handleFinish = async () => {
+    // Guard: Don't make request if no token
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("❌ Please log in to complete onboarding.");
+      return;
+    }
+    
     try {
       setSaving(true);
       setError("");
@@ -123,9 +129,7 @@ const Onboarding = () => {
       // Only send gender if user actually selected a valid option
       if (gender) payload.gender = gender;
 
-      const res = await axios.post(`${BASE_URL}/profile/edit`, payload, {
-        withCredentials: true,
-      });
+      const res = await api.post("/profile/edit", payload);
       dispatch(addUser(res.data.data));
       navigate("/feed");
     } catch (err) {

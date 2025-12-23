@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
-import BASE_URL from "../utils/constants";
+import api from "../utils/api";
 import { removeUser } from "../utils/userSlice";
 import {
   FaRocket,
@@ -47,11 +46,15 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${BASE_URL}/logout`, {}, { withCredentials: true });
+      await api.post("/logout", {});
+      localStorage.removeItem("token");
       dispatch(removeUser());
       navigate("/login");
     } catch (error) {
-      console.error("Logout failed", error);
+      // Even if logout fails, clear local state
+      localStorage.removeItem("token");
+      dispatch(removeUser());
+      navigate("/login");
     }
   };
 

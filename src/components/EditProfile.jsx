@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import UserCard from "./UserCard";
-import axios from "axios";
-import BASE_URL from "../utils/constants";
+import api from "../utils/api";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import {
@@ -92,6 +91,14 @@ const EditProfile = ({ user }) => {
   const saveProfile = async (e) => {
     e.preventDefault();
     setError("");
+    
+    // Guard: Don't make request if no token
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("❌ Please log in to save your profile.");
+      return;
+    }
+    
     try {
       // Backend rejects some system-managed fields; send only editable ones.
       const payload = {
@@ -107,13 +114,7 @@ const EditProfile = ({ user }) => {
         payload.age = age;
       }
 
-      const res = await axios.post(
-        BASE_URL + "/profile/edit",
-        payload,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await api.post("/profile/edit", payload);
       dispatch(addUser(res.data.data));
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3000);

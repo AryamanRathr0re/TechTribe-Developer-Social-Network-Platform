@@ -5,8 +5,7 @@ import {
   useTransform,
   useAnimation,
 } from "framer-motion";
-import BASE_URL from "../utils/constants";
-import axios from "axios";
+import api from "../utils/api";
 import {
   FaHeart,
   FaTimes,
@@ -100,6 +99,18 @@ const UserCard = ({ user, onSwipeComplete }) => {
   const nopeOpacity = useTransform(x, [-SWIPE_THRESHOLD, 0], [1, 0]);
 
   const handleSendRequest = async (status, userId, isSuperLike = false) => {
+    // Guard: Don't make request if no token
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setToast({
+        show: true,
+        message: "❌ Please log in to send requests.",
+        type: "error",
+      });
+      setTimeout(() => setToast({ show: false, message: "", type: "" }), 2000);
+      return;
+    }
+    
     try {
       // Animate card out
       await controls.start({
@@ -110,10 +121,10 @@ const UserCard = ({ user, onSwipeComplete }) => {
       });
 
       const endpoint = isSuperLike
-        ? BASE_URL + "/request/send/superlike/" + userId
-        : BASE_URL + "/request/send/" + status + "/" + userId;
+        ? "/request/send/superlike/" + userId
+        : "/request/send/" + status + "/" + userId;
 
-      const res = await axios.post(endpoint, {}, { withCredentials: true });
+      const res = await api.post(endpoint, {});
 
       if (isSuperLike) {
         setSuperLikeAvailable(false);

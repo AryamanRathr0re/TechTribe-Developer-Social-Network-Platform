@@ -3,8 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { createSocketConnection } from "../utils/socket";
 import { useSelector } from "react-redux";
-import axios from "axios";
-import BASE_URL from "../utils/constants";
+import api from "../utils/api";
 import {
   FaArrowLeft,
   FaPaperPlane,
@@ -33,11 +32,16 @@ const Chat = () => {
   }, [messages]);
 
   const fetchChatMessages = async () => {
+    // Guard: Don't make request if no token
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+    
     try {
       setLoading(true);
-      const chat = await axios.get(BASE_URL + "/chat/" + targetUserId, {
-        withCredentials: true,
-      });
+      const chat = await api.get("/chat/" + targetUserId);
 
       const chatMessages = chat?.data?.messages.map((msg) => {
         const { senderId, text } = msg;

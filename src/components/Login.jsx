@@ -37,6 +37,13 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+      
+      // Store JWT token if present in response
+      const token = res.data?.token || res.data?.data?.token;
+      if (token) {
+        localStorage.setItem("token", token);
+      }
+      
       dispatch(addUser(res.data));
       navigate("/onboarding");
     } catch (error) {
@@ -61,6 +68,13 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+      
+      // Store JWT token if present in response
+      const token = res.data?.token || res.data?.data?.token;
+      if (token) {
+        localStorage.setItem("token", token);
+      }
+      
       dispatch(addUser(res.data.data));
       return navigate("/onboarding");
     } catch (error) {

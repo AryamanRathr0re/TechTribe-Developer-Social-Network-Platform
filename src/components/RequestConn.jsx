@@ -1,9 +1,8 @@
-import axios from "axios";
+import api from "../utils/api";
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequests, removeRequest } from "../utils/requestSlice";
-import BASE_URL from "../utils/constants";
 import {
   FaHeart,
   FaTimes,
@@ -20,31 +19,42 @@ const RequestConn = () => {
   const [processingId, setProcessingId] = useState(null);
 
   const reviewRequest = async (status, _id) => {
+    // Guard: Don't make request if no token
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    
     try {
       setProcessingId(_id);
-      const res = await axios.post(
-        BASE_URL + "/request/review/" + status + "/" + _id,
-        {},
-        { withCredentials: true }
-      );
+      const res = await api.post(`/request/review/${status}/${_id}`, {});
       dispatch(removeRequest(_id));
     } catch (error) {
-      console.error(error.message);
+      // 401 is handled by api interceptor
+      if (error?.response?.status !== 401) {
+        console.error(error.message);
+      }
     } finally {
       setProcessingId(null);
     }
   };
 
   const getRequest = async () => {
+    // Guard: Don't make request if no token
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+    
     try {
       setLoading(true);
-      const res = await axios.get(BASE_URL + "/user/requests/recieved", {
-        withCredentials: true,
-      });
+      const res = await api.get("/user/requests/recieved");
       console.log(res.data);
       dispatch(addRequests(res.data.data || []));
     } catch (error) {
-      console.error("Error fetching requests:", error.message);
+      // 401 is handled by api interceptor
+      if (error?.response?.status !== 401) {
+        console.error("Error fetching requests:", error.message);
+      }
     } finally {
       setLoading(false);
     }
