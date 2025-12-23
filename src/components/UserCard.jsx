@@ -6,9 +6,7 @@ import {
   useAnimation,
 } from "framer-motion";
 import BASE_URL from "../utils/constants";
-import { useDispatch } from "react-redux";
 import axios from "axios";
-import { removeUserFromFeed } from "../utils/feedSlice";
 import {
   FaHeart,
   FaTimes,
@@ -86,7 +84,6 @@ const UserCard = ({ user, onSwipeComplete }) => {
   } = user;
   const currentUser = useSelector((store) => store.user);
   const compatibility = calculateCompatibility(currentUser, user);
-  const dispatch = useDispatch();
   const cardRef = useRef(null);
 
   const x = useMotionValue(0);
@@ -117,7 +114,6 @@ const UserCard = ({ user, onSwipeComplete }) => {
         : BASE_URL + "/request/send/" + status + "/" + userId;
 
       const res = await axios.post(endpoint, {}, { withCredentials: true });
-      dispatch(removeUserFromFeed(userId));
 
       if (isSuperLike) {
         setSuperLikeAvailable(false);

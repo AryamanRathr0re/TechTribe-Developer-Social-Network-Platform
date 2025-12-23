@@ -69,22 +69,23 @@ const EditProfile = ({ user }) => {
     e.preventDefault();
     setError("");
     try {
+      // Backend rejects some system-managed fields; send only editable ones.
+      const payload = {
+        firstName,
+        LastName,
+        profile,
+        about,
+        gender,
+        skills,
+      };
+
+      if (age !== "" && age !== null && age !== undefined) {
+        payload.age = age;
+      }
+
       const res = await axios.post(
         BASE_URL + "/profile/edit",
-        {
-          firstName,
-          LastName,
-          profile,
-          age,
-          gender,
-          about,
-          skills,
-          photos,
-          verifications,
-          verificationLinks,
-          projects,
-          interests,
-        },
+        payload,
         {
           withCredentials: true,
         }

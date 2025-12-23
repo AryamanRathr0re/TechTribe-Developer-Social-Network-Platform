@@ -15,7 +15,6 @@ import {
   FaCog,
   FaChartLine,
 } from "react-icons/fa";
-import NotificationCenter from "./NotificationCenter";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -23,23 +22,7 @@ const Navbar = () => {
   const user = useSelector((store) => store.user);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications] = useState([
-    {
-      id: 1,
-      type: "match",
-      userName: "John Doe",
-      read: false,
-      timestamp: new Date(),
-    },
-    {
-      id: 2,
-      type: "message",
-      userName: "Jane Smith",
-      read: false,
-      timestamp: new Date(),
-    },
-  ]);
+  // Notification center removed
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
@@ -141,24 +124,7 @@ const Navbar = () => {
                   <span className="font-semibold text-sm md:text-base">
                     Requests
                   </span>
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center text-xs font-bold text-black shadow-lg animate-pulse">
-                    !
-                  </span>
                 </Link>
-                <button
-                  onClick={() => setShowNotifications(!showNotifications)}
-                  className="relative flex items-center gap-2 text-white hover:bg-white/25 rounded-full px-4 py-2 transition-all duration-300 hover:scale-105 h-full"
-                >
-                  <FaBell className="text-lg" />
-                  <span className="font-semibold text-sm md:text-base hidden lg:inline">
-                    Notifications
-                  </span>
-                  {notifications.filter((n) => !n.read).length > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg">
-                      {notifications.filter((n) => !n.read).length}
-                    </span>
-                  )}
-                </button>
               </div>
 
               {/* User Menu */}
@@ -373,12 +339,6 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Notification Center */}
-        <NotificationCenter
-          notifications={notifications}
-          isOpen={showNotifications}
-          onClose={() => setShowNotifications(false)}
-        />
       </div>
     </motion.div>
   );

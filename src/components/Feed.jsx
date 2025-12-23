@@ -365,7 +365,7 @@ const Feed = () => {
         {/* Card Container */}
         {filteredFeed.length > 0 ? (
           <div className="relative" style={{ height: "650px" }}>
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               {currentUser && (
                 <motion.div
                   key={currentUser._id || currentIndex}
@@ -378,41 +378,19 @@ const Feed = () => {
                   <UserCard
                     user={currentUser}
                     onSwipeComplete={() => {
-                      setTimeout(() => {
-                        if (currentIndex < filteredFeed.length - 1) {
-                          setCurrentIndex(currentIndex + 1);
-                        } else {
-                          getFeed();
+                      setCurrentIndex((prev) => {
+                        if (prev < filteredFeed.length - 1) {
+                          return prev + 1;
                         }
-                      }, 300);
+                        // Re-fetch when we reach the end so new users appear
+                        getFeed();
+                        return prev;
+                      });
                     }}
                   />
                 </motion.div>
               )}
             </AnimatePresence>
-
-            {/* Next Card Preview */}
-            {filteredFeed[currentIndex + 1] && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.3 }}
-                className="absolute inset-0 -z-10"
-                style={{
-                  transform: "scale(0.95) translateY(20px)",
-                }}
-              >
-                <div className="tinder-card bg-white rounded-3xl overflow-hidden h-full opacity-30">
-                  <img
-                    src={
-                      filteredFeed[currentIndex + 1].profile ||
-                      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400"
-                    }
-                    alt="Next"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </motion.div>
-            )}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center min-h-[400px]">
