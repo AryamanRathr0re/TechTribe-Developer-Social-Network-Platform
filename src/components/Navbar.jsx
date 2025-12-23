@@ -102,11 +102,11 @@ const Navbar = () => {
               <div className="hidden md:flex items-center gap-2 h-full">
                 <Link
                   to="/feed"
-                  className="flex items-center gap-2 text-white hover:bg-white/25 rounded-full px-4 py-2 transition-all duration-300 hover:scale-105 h-full"
+                  className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold rounded-full px-5 py-2.5 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl border border-white/30"
                 >
                   <FaHeart className="text-lg" />
                   <span className="font-semibold text-sm md:text-base">
-                    Discover
+                    Feed
                   </span>
                 </Link>
                 <Link
@@ -166,8 +166,9 @@ const Navbar = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-3 z-[100] p-2 shadow-2xl menu menu-sm bg-white rounded-2xl w-56 border border-gray-200"
+                      className="absolute right-0 top-full mt-4 z-[100] p-2 shadow-2xl menu menu-sm bg-white rounded-2xl w-56 border border-gray-200"
                       onClick={(e) => e.stopPropagation()}
+                      style={{ marginTop: "1rem" }}
                     >
                       <li className="px-4 py-3 border-b border-gray-200 bg-gradient-to-r from-pink-50 to-red-50 rounded-t-xl">
                         <span className="font-bold text-gray-800 text-base">
@@ -275,8 +276,9 @@ const Navbar = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-3 z-[100] p-2 shadow-2xl menu menu-sm bg-white rounded-2xl w-52 border border-gray-200"
+                      className="absolute right-0 top-full mt-4 z-[100] p-2 shadow-2xl menu menu-sm bg-white rounded-2xl w-52 border border-gray-200"
                       onClick={(e) => e.stopPropagation()}
+                      style={{ marginTop: "1rem" }}
                     >
                       <li>
                         <Link
