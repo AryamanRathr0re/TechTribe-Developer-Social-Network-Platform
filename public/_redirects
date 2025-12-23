@@ -1,0 +1,5 @@
+# Render static site redirects - serve index.html for SPA routes
+# but allow static assets to be served directly
+/assets/* 200
+/*    /index.html   200
+
