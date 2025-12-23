@@ -26,15 +26,17 @@ function App() {
                 </div>
               }
             >
-              <Route path="/login" element={<Login />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/feed" element={<Feed />} />
-              <Route path="/" element={<Landing />} />
-              <Route path="/connections" element={<Connections />} />
-              <Route path="/request" element={<RequestConn />} />
-              <Route path="/chat/:targetUserId" element={<Chat />} />
-              <Route path="/analytics" element={<ProfileAnalytics />} />
+              <Route index element={<Landing />} />
+              <Route path="login" element={<Login />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="onboarding" element={<Onboarding />} />
+              <Route path="feed" element={<Feed />} />
+              <Route path="connections" element={<Connections />} />
+              <Route path="request" element={<RequestConn />} />
+              <Route path="chat/:targetUserId" element={<Chat />} />
+              <Route path="analytics" element={<ProfileAnalytics />} />
+              {/* Catch-all route for SPA - must be last */}
+              <Route path="*" element={<Landing />} />
             </Route>
           </Routes>
         </BrowserRouter>

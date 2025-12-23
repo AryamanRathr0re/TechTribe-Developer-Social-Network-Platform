@@ -1,7 +1,6 @@
 services:
-  - type: web
+  - type: static
     name: techtribe-frontend
-    env: static
     buildCommand: npm run build
     staticPublishPath: ./dist
     headers:
@@ -14,4 +13,8 @@ services:
       - path: /assets/*
         name: Cache-Control
         value: public, max-age=31536000, immutable
+      # SPA fallback: serve index.html for all routes
+      - path: /*
+        name: X-Robots-Tag
+        value: noindex
 

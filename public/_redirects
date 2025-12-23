@@ -1,5 +1,3 @@
-# Render static site redirects - serve index.html for SPA routes
-# but allow static assets to be served directly
+# Render SPA fallback - serve index.html for all routes except static assets
 /assets/* 200
 /*    /index.html   200
-
