@@ -38,7 +38,7 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(res.data));
-      navigate("/feed");
+      navigate("/onboarding");
     } catch (error) {
       setError(
         error?.response?.data?.message ||
@@ -62,7 +62,7 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(res.data.data));
-      return navigate("/profile");
+      return navigate("/onboarding");
     } catch (error) {
       setError(
         error?.response?.data?.message ||

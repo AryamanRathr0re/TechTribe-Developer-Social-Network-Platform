@@ -24,6 +24,30 @@ import {
   FaHeart,
 } from "react-icons/fa";
 
+const SUGGESTED_SKILLS = [
+  "React",
+  "Node.js",
+  "TypeScript",
+  "Python",
+  "Next.js",
+  "MongoDB",
+  "Express",
+  "Tailwind CSS",
+  "DevOps",
+  "UI/UX",
+];
+
+const SUGGESTED_INTERESTS = [
+  "Open Source",
+  "Hackathons",
+  "Startups",
+  "AI/ML",
+  "Web3",
+  "Mobile Apps",
+  "Competitive Programming",
+  "Freelancing",
+];
+
 const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
   const [LastName, setLastName] = useState(user.LastName);
@@ -140,8 +164,9 @@ const EditProfile = ({ user }) => {
   };
 
   const addInterest = () => {
-    if (newInterest && !interests.includes(newInterest)) {
-      setInterests([...interests, newInterest]);
+    const trimmed = newInterest.trim();
+    if (trimmed && !interests.includes(trimmed)) {
+      setInterests([...interests, trimmed]);
       setNewInterest("");
     }
   };
@@ -326,6 +351,29 @@ const EditProfile = ({ user }) => {
                 <label className="block text-white/90 mb-2 font-semibold flex items-center gap-2">
                   <FaCode /> Skills
                 </label>
+                <p className="text-white/50 text-xs mb-2">
+                  Click a chip to quickly add skills, or type your own.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {SUGGESTED_SKILLS.map((skill) => (
+                    <button
+                      key={skill}
+                      type="button"
+                      onClick={() => {
+                        if (!skills.includes(skill)) {
+                          setSkills([...skills, skill]);
+                        }
+                      }}
+                      className={`px-3 py-1 rounded-full text-xs border ${
+                        skills.includes(skill)
+                          ? "bg-pink-500 text-white border-pink-400"
+                          : "bg-white/10 text-white/80 border-white/20 hover:bg-white/20"
+                      }`}
+                    >
+                      {skill}
+                    </button>
+                  ))}
+                </div>
                 <div className="flex items-center gap-2">
                   <input
                     type="text"
@@ -494,6 +542,29 @@ const EditProfile = ({ user }) => {
                 <label className="block text-white/90 mb-2 font-semibold flex items-center gap-2">
                   <FaHeart /> Interests & Preferences
                 </label>
+                <p className="text-white/50 text-xs mb-2">
+                  Choose topics you care about, or add your own.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {SUGGESTED_INTERESTS.map((interest) => (
+                    <button
+                      key={interest}
+                      type="button"
+                      onClick={() => {
+                        if (!interests.includes(interest)) {
+                          setInterests([...interests, interest]);
+                        }
+                      }}
+                      className={`px-3 py-1 rounded-full text-xs border ${
+                        interests.includes(interest)
+                          ? "bg-purple-500 text-white border-purple-400"
+                          : "bg-white/10 text-white/80 border-white/20 hover:bg-white/20"
+                      }`}
+                    >
+                      {interest}
+                    </button>
+                  ))}
+                </div>
                 <div className="flex items-center gap-2 mb-3">
                   <input
                     type="text"

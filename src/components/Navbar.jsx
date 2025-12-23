@@ -22,7 +22,6 @@ const Navbar = () => {
   const user = useSelector((store) => store.user);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  // Notification center removed
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
 

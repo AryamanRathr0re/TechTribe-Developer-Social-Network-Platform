@@ -10,6 +10,7 @@ import Connections from "./components/Connections";
 import RequestConn from "./components/RequestConn";
 import Chat from "./components/Chat";
 import ProfileAnalytics from "./components/ProfileAnalytics";
+import Onboarding from "./components/Onboarding";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             >
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/feed" element={<Feed />} />
               <Route path="/" element={<Landing />} />
               <Route path="/connections" element={<Connections />} />
